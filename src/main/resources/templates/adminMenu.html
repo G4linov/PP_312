@@ -21,10 +21,10 @@
         <td th:text="${user.username}"></td>
         <td th:text="${user.userInfo}"></td>
         <td>
-            <a th:href="@{/updateUser(id=${user.id})}">
+            <a th:href="@{/admin/updateUser(id=${user.id})}">
                 <button type="submit">Update</button>
             </a>
-            <a th:href="@{/deleteUser(id=${user.id})}">
+            <a th:href="@{/admin/deleteUser(id=${user.id})}">
                 <button type="submit">Delete</button>
             </a>
         </td>
@@ -32,7 +32,7 @@
     </tbody>
 </table>
 <br>
-<a th:href="@{/newUser}">
+<a th:href="@{/admin/newUser}">
     <button type="button">Create new user</button>
 </a>
 </body>

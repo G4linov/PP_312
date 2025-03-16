@@ -26,26 +26,26 @@ public class ViewController {
         return "adminMenu";
     }
 
-    @GetMapping(value = "/newUser")
+    @GetMapping(value = "/admin/newUser")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
         return "adminUserInfo";
     }
 
-    @GetMapping(value = "/updateUser")
-    public String updateUser(@RequestParam("id") int id, Model model) {
+    @GetMapping(value = "/admin/updateUser")
+    public String updateUser(@RequestParam("id") Long id, Model model) {
         model.addAttribute("user", userService.getUser(id));
         return "adminUserInfo";
     }
 
-    @GetMapping(value = "/deleteUser")
-    public String deleteUser(@RequestParam("id") int id) {
+    @GetMapping(value = "/admin/deleteUser")
+    public String deleteUser(@RequestParam("id") Long id) {
         User user = userService.getUser(id);
         userService.deleteUser(user);
         return "redirect:/admin";
     }
 
-    @PostMapping(value = "/saveUser")
+    @PostMapping(value = "/admin/saveUser")
     public String saveUser(@ModelAttribute("user") User user) {
         if (user.getId() != 0) {
             userService.updateUser(user);
