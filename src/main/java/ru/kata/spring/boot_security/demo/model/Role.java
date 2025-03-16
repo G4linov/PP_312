@@ -43,12 +43,16 @@ public class Role implements GrantedAuthority{
         this.role = role;
     }
 
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     public List<User> getUsers() {
         return users;
     }
 
     @Override
     public String getAuthority() {
-        return "";
+        return getRole();
     }
 }
