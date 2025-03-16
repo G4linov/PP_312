@@ -19,30 +19,30 @@ public class ViewController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/admin")
     public String index(Model model) {
         List<User> users = userService.getUsers();
         model.addAttribute("users", users);
-        return "index";
+        return "adminMenu";
     }
 
     @GetMapping(value = "/newUser")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
-        return "userInfo";
+        return "adminUserInfo";
     }
 
     @GetMapping(value = "/updateUser")
     public String updateUser(@RequestParam("id") int id, Model model) {
         model.addAttribute("user", userService.getUser(id));
-        return "userInfo";
+        return "adminUserInfo";
     }
 
     @GetMapping(value = "/deleteUser")
     public String deleteUser(@RequestParam("id") int id) {
         User user = userService.getUser(id);
         userService.deleteUser(user);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
     @PostMapping(value = "/saveUser")
@@ -52,6 +52,6 @@ public class ViewController {
         } else {
             userService.addUser(user);
         }
-        return "redirect:/";
+        return "redirect:/admin";
     }
 }
