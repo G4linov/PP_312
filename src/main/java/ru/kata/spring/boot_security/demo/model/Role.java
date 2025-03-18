@@ -3,9 +3,7 @@ package ru.kata.spring.boot_security.demo.model;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,6 +24,11 @@ public class Role implements GrantedAuthority {
 
     public Role(String role) {
         this.role = role;
+    }
+
+    public Role(long l, String roleUser) {
+        this.role = roleUser;
+        this.id = l;
     }
 
     public Long getId() {

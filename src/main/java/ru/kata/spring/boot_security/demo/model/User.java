@@ -4,10 +4,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
+import javax.validation.constraints.*;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 
@@ -19,9 +17,12 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name can't be empty")
+    @Pattern(regexp = "^[A-Za-zА-Яа-яЁё]+$", message = "Name can't contain numbers")
     @Column(unique = true, nullable = false)
     private String username;
 
+    @NotBlank(message = "Password can't be empty")
     @Column(nullable = false)
     private String password;
 
@@ -50,6 +51,10 @@ public class User implements UserDetails {
     @Override
     public String getPassword() {
         return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getUsername() {
