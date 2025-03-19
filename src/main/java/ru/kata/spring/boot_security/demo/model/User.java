@@ -29,7 +29,7 @@ public class User implements UserDetails {
     @Column(nullable = true, name = "user_info")
     private String userInfo;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<Role> roles;
 
     public User() {

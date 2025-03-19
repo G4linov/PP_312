@@ -14,10 +14,10 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-public class ViewController {
+public class AdminController {
     private final UserService userService;
 
-    public ViewController(UserService userService) {
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
@@ -53,7 +53,11 @@ public class ViewController {
             return "adminUserInfo";
         }
 
-        userService.saveOrUpdate(user);
+        if (user.getId() == null) {
+            userService.addUser(user);
+        } else {
+            userService.updateUser(user);
+        }
         return "redirect:/admin";
     }
 }

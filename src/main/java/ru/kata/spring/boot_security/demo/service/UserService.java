@@ -3,9 +3,12 @@ package ru.kata.spring.boot_security.demo.service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,9 +19,11 @@ import java.util.List;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -33,8 +38,15 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void saveOrUpdate(User user) {
+    public void addUser(User user) {
         user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        this.userRepository.save(user);
+    }
+
+    @Transactional
+    public void updateUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         this.userRepository.save(user);
     }
 
