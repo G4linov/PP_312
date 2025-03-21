@@ -24,6 +24,10 @@ public class SpringBootSecurityDemoApplication {
 				User admin = new User();
 				admin.setUsername("admin");
 				admin.setPassword("admin");
+				admin.setFirstName("admin");
+				admin.setLastName("admin");
+				admin.setEmail("admin@email.com");
+				admin.setAge(22);
 
 				userService.addUser(admin);
 

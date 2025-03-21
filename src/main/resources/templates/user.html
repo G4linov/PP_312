@@ -10,5 +10,28 @@
     <button type="submit">Logout</button>
 </form>
 
+<div class="user-profile">
+    <h2>User Profile</h2>
+
+    <div class="user-info">
+        <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+        <p><strong>First Name:</strong> <span th:text="${user.firstName}"></span></p>
+        <p><strong>Last Name:</strong> <span th:text="${user.lastName}"></span></p>
+        <p><strong>Age:</strong> <span th:text="${user.age}"></span></p>
+
+        <div class="user-bio">
+            <h3>About User</h3>
+            <p th:text="${user.userInfo} ?: 'No additional information provided.'"></p>
+        </div>
+
+        <div class="user-roles">
+            <h3>Roles:</h3>
+            <ul>
+                <li th:each="authority : ${user.getAuthorities()}" th:text="${authority.authority}"></li>
+            </ul>
+        </div>
+    </div>
+</div>
 </body>
 </html>

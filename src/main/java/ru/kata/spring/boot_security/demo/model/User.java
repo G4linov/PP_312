@@ -17,8 +17,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Name can't be empty")
-    @Pattern(regexp = "^[A-Za-zА-Яа-яЁё]+$", message = "Name can't contain numbers")
+    @NotBlank(message = "Username can't be empty")
+    @Pattern(regexp = "^[A-Za-zА-Яа-яЁё]+$", message = "Name can't contain numbers or special characters")
     @Column(unique = true, nullable = false)
     private String username;
 
@@ -26,7 +26,25 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = true, name = "user_info")
+    @Pattern(regexp = "^[A-Za-zА-Яа-яЁё\\s-]+$", message = "First name must contain only letters")
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Pattern(regexp = "^[A-Za-zА-Яа-яЁё\\s-]+$", message = "Last name must contain only letters")
+    @Column(name = "last_name")
+    private String lastName;
+
+    @NotBlank(message = "Email can't be empty")
+    @Email(message = "Invalid email format")
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Min(value = 6, message = "Age must be at least 7")
+    @Max(value = 100, message = "Age must be less than 100")
+    @Column(nullable = false)
+    private int age;
+
+    @Column( name = "user_info")
     private String userInfo;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -107,5 +125,37 @@ public class User implements UserDetails {
 
     public void removeRole(Role role) {
         this.roles.remove(role);
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }
