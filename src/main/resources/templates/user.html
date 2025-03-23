@@ -1,35 +1,80 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <title>User page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<h1>User, welcome spring boot security page!</h1>
-<br><br>
-<form th:action="@{/logout}" method="post">
-    <button type="submit">Logout</button>
-</form>
 
-<div class="user-profile">
-    <h2>User Profile</h2>
+<nav class="navbar fixed-top bg-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container-fluid">
+        <span class="navbar-text text-decoration-none">
+            <strong> <span th:text="${currentUser.getEmail()}"></span> </strong>
+            with roles: <span
+                th:text="${#strings.replace(#strings.listJoin(currentUser.getAuthorities(), ' '), 'ROLE_', '')}"> </span>
+        </span>
+        <span class="navbar-text float-end">
+            <a href="/logout" class="text-decoration-none">Logout</a>
+        </span>
+    </div>
+</nav>
+<div class="container-fluid" style="margin-top: 70px;">
+    <div class="row">
+        <div class="col-2">
+            <nav class="nav flex-column">
+                <!-- Для ADMIN -->
+                <a sec:authorize="hasRole('ADMIN')"
+                   class="nav-link"
+                   th:classappend="${#httpServletRequest.requestURI.startsWith('/admin') ? 'active bg-primary text-white' : 'text-primary'}"
+                   href="/admin">
+                    Admin
+                </a>
 
-    <div class="user-info">
-        <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
-        <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
-        <p><strong>First Name:</strong> <span th:text="${user.firstName}"></span></p>
-        <p><strong>Last Name:</strong> <span th:text="${user.lastName}"></span></p>
-        <p><strong>Age:</strong> <span th:text="${user.age}"></span></p>
-
-        <div class="user-bio">
-            <h3>About User</h3>
-            <p th:text="${user.userInfo} ?: 'No additional information provided.'"></p>
+                <!-- Для USER и ADMIN -->
+                <a sec:authorize="hasAnyRole('USER', 'ADMIN')"
+                   class="nav-link"
+                   th:classappend="${#httpServletRequest.requestURI.startsWith('/user') ? 'active bg-primary text-white' : 'text-primary'}"
+                   href="/user">
+                    User
+                </a>
+            </nav>
         </div>
+        <div class="col-10">
+            <h2>User information-page</h2>
 
-        <div class="user-roles">
-            <h3>Roles:</h3>
-            <ul>
-                <li th:each="authority : ${user.getAuthorities()}" th:text="${authority.authority}"></li>
-            </ul>
+            <div class="card mt-3">
+                <div class="card-header">
+                    About user
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Age</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:object="${currentUser}">
+                            <td th:text="${currentUser.id}"></td>
+                            <td th:text="${currentUser.firstName}"></td>
+                            <td th:text="${currentUser.lastName}"></td>
+                            <td th:text="${currentUser.age}"></td>
+                            <td th:text="${currentUser.email}"></td>
+                            <td th:text="${#strings.replace(#strings.listJoin(currentUser.getAuthorities(), ' '), 'ROLE_', '')}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

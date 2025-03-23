@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.validation.Valid;
@@ -14,15 +15,22 @@ import java.util.List;
 @RequestMapping(value = "/admin")
 public class AdminController {
     private final UserService userService;
+    private final RoleService roleService;
 
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping(value = "")
     public String index(Model model) {
-        List<User> users = userService.getUsers();
-        model.addAttribute("users", users);
+
+        model.addAttribute("allRoles", roleService.getRoles());
+        model.addAttribute("users", userService.getUsers());
+
+        model.addAttribute("currentUser", userService.getCurrentUser());
+        model.addAttribute("newUser", new User());
+
         return "adminMenu";
     }
 

@@ -3,9 +3,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet"></head>
+
   <title>User Info</title>
 </head>
 <body>
+
+<nav class="navbar fixed-top bg-body-tertiary">
+  <div class="container-fluid">
+    <span class="navbar-brand mb-0 h1">Navbar</span>
+  </div>
+</nav>
+
 <form th:action="@{/logout}" method="post">
   <button type="submit">Logout</button>
 </form>
@@ -44,5 +53,6 @@
   <button type="submit">Submit</button>
 </form>
 
+<script src="/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

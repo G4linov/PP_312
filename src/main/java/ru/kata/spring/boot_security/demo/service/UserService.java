@@ -51,7 +51,9 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void addUser(User user) {
-        user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
+        if (user.getRoles() == null) {
+            user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         this.userRepository.save(user);
     }

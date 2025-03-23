@@ -39,9 +39,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/index").permitAll()
-                .antMatchers("/user").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/", "/index", "/webjars/**").permitAll()
+                .antMatchers("/user").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().successHandler(successUserHandler)
@@ -50,10 +50,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll()
                 .logoutSuccessUrl("/");
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        return http.getSharedObject(AuthenticationManager.class);
     }
 }

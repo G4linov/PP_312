@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
@@ -29,8 +30,14 @@ public class UserController {
             return "redirect:/login";
         }
 
-        model.addAttribute("user", user);
+        model.addAttribute("currentUser", user);
 
         return "user";
+    }
+
+    @GetMapping("/debugRoles")
+    @ResponseBody
+    public String debugRoles(Authentication authentication) {
+        return "User Roles: " + authentication.getAuthorities();
     }
 }
