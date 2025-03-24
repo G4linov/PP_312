@@ -28,7 +28,7 @@
         <div class="user-roles">
             <h3>Roles:</h3>
             <ul>
-                <li th:each="authority : ${user.getAuthorities()}" th:text="${authority.authority}"></li>
+                <li th:each="authority : ${user.getAuthorities()}" th:text="|${#strings.replace(authority.authority, 'ROLE_', '')}|"></li>
             </ul>
         </div>
     </div>

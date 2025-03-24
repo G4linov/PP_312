@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.validation.Valid;
@@ -14,9 +15,11 @@ import java.util.List;
 @RequestMapping(value = "/admin")
 public class AdminController {
     private final UserService userService;
+    private final RoleService roleService;
 
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping(value = "")
@@ -29,12 +32,14 @@ public class AdminController {
     @GetMapping(value = "/newUser")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("allRoles", roleService.getAllRoles());
         return "adminUserInfo";
     }
 
     @GetMapping(value = "/updateUser")
     public String updateUser(@RequestParam("id") Long id, Model model) {
         model.addAttribute("user", userService.getUser(id));
+        model.addAttribute("allRoles", roleService.getAllRoles());
         return "adminUserInfo";
     }
 
@@ -46,8 +51,9 @@ public class AdminController {
     }
 
     @PostMapping(value = "/saveUser")
-    public String saveUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
+    public String saveUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("allRoles", roleService.getAllRoles());
             return "adminUserInfo";
         }
 

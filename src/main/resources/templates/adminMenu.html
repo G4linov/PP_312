@@ -15,14 +15,16 @@
 <table>
     <thead>
     <tr>
-        <th>username</th>
-        <th>user info</th>
-        <th>operations</th>
+        <th>Username</th>
+        <th>User roles</th>
+        <th>Additional info</th>
+        <th>Operations</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="user : ${users}">
         <td th:text="${user.username}"></td>
+        <td th:each="role : ${user.roles}" th:text="|${#strings.replace(role.role,'ROLE_','')}|"></td>
         <td th:text="${user.userInfo}"></td>
         <td>
             <a th:href="@{/admin/updateUser(id=${user.id})}">
