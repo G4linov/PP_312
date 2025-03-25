@@ -51,7 +51,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void addUser(User user) {
-        if (user.getRoles() == null) {
+        if (user.getRoles().isEmpty()) {
             user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
